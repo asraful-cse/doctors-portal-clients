@@ -1,8 +1,8 @@
 import React from "react";
 import Services from "../Services/Services";
-import Navigation from "../Shared/Navigation/Navigation";
-import AppointmentBanner from "./AppointmentBanner/AppointmentBanner";
-import Banner from "./Banner/Banner";
+import Navigation from "../../Shared/Navigation/Navigation";
+import AppointmentBanner from "../AppointmentBanner/AppointmentBanner";
+import Banner from "../Banner/Banner";
 
 const Home = () => {
 	return (

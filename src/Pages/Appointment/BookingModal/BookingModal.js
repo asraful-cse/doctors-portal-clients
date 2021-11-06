@@ -37,28 +37,24 @@ const BookingModal = ({ booking, BookingOpen, handleBookingClose, date }) => {
 					<TextField
 						sx={{ width: "90%", my: 1 }}
 						disabled
-						label="Size"
 						id="outlined-size-small"
 						defaultValue={time}
 						size="small"
 					/>
 					<TextField
 						sx={{ width: "90%", my: 1 }}
-						label="Size"
 						id="outlined-size-small"
 						defaultValue="your name "
 						size="small"
 					/>
 					<TextField
 						sx={{ width: "90%", my: 1 }}
-						label="Size"
 						id="outlined-size-small"
 						defaultValue="your email"
 						size="small"
 					/>
 					<TextField
 						sx={{ width: "90%", my: 1 }}
-						label="Size"
 						id="outlined-size-small"
 						defaultValue="your phone number"
 						size="small"
@@ -66,7 +62,6 @@ const BookingModal = ({ booking, BookingOpen, handleBookingClose, date }) => {
 					<TextField
 						sx={{ width: "90%", my: 1 }}
 						disabled
-						label="Size"
 						id="outlined-size-small"
 						defaultValue={date.toDateString()}
 						size="small"
