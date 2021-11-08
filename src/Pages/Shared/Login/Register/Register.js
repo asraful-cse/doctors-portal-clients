@@ -8,39 +8,38 @@ import {
 	Alert,
 } from "@mui/material";
 import React, { useState } from "react";
-import { NavLink, useLocation, useHistory } from "react-router-dom";
-import login from "../../../../images/login.png";
+import { NavLink, useHistory } from "react-router-dom";
 import useAuth from "../../../../Hooks/useAuth";
-const Login = () => {
-	const [loginData, setLoginData] = useState({});
-	const { user, loginUser, isLoading, authError, signInWithGoogle } = useAuth();
+import login from "../../../../images/login.png";
 
-	// PrivateRoute er jonno------------------------------
-	const location = useLocation();
+const Register = () => {
+	const [loginData, setLoginData] = useState({});
+	const { user, registerUser, isLoading, authError } = useAuth();
 	const history = useHistory();
-	const handleOnChange = (e) => {
+	const handleOnBlur = (e) => {
 		const field = e.target.name;
 		const value = e.target.value;
 		// console.log(field, value);
 		const newLoginData = { ...loginData };
 		newLoginData[field] = value;
+		console.log(newLoginData);
 		setLoginData(newLoginData);
 	};
 	const handleLoginSubmit = (e) => {
-		loginUser(loginData.email, loginData.password, location, history);
 		e.preventDefault();
-	};
+		if (loginData.password !== loginData.password2) {
+			alert("Your Password did not match");
 
-	// google sign in er event-------------------------------
-	const handleGoogleSignIN = () => {
-		signInWithGoogle(location, history);
+			return;
+		}
+		registerUser(loginData.email, loginData.password, loginData.name, history);
 	};
 	return (
 		<Container>
 			<Grid container spacing={2}>
 				<Grid item xs={12} md={6}>
 					<Typography sx={{ mt: 8 }} variant="body1" gutterBottom>
-						Please Login Now ?
+						Please Register Now !!
 					</Typography>
 
 					{!isLoading && (
@@ -48,8 +47,17 @@ const Login = () => {
 							<TextField
 								sx={{ width: "75%", m: 1 }}
 								id="standard-basic"
+								name="name"
+								onBlur={handleOnBlur}
+								type="text"
+								label="Your Name"
+								variant="standard"
+							/>
+							<TextField
+								sx={{ width: "75%", m: 1 }}
+								id="standard-basic"
 								name="email"
-								onChange={handleOnChange}
+								onBlur={handleOnBlur}
 								type="email"
 								label="Your Email"
 								variant="standard"
@@ -58,9 +66,18 @@ const Login = () => {
 								sx={{ width: "75%", m: 1 }}
 								id="standard-basic"
 								name="password"
-								onChange={handleOnChange}
+								onBlur={handleOnBlur}
 								type="password"
 								label="Your Password"
+								variant="standard"
+							/>
+							<TextField
+								sx={{ width: "75%", m: 1 }}
+								id="standard-basic"
+								name="password2"
+								onBlur={handleOnBlur}
+								type="password"
+								label="Re-Type Your Password"
 								variant="standard"
 							/>
 							<br />
@@ -70,7 +87,7 @@ const Login = () => {
 									severity="success"
 									color="info"
 								>
-									Your Account Login Successfully
+									Your Account Successfully Created
 								</Alert>
 							)}
 							{authError && (
@@ -87,19 +104,15 @@ const Login = () => {
 								type="submit"
 								variant="contained"
 							>
-								Login
+								Register
 							</Button>
 
-							<NavLink style={{ textDecoration: "none" }} to="/register">
-								<Button>New user ! please register ?</Button>
+							<NavLink style={{ textDecoration: "none" }} to="/login">
+								<Button>Already Register ! Please Login ?</Button>
 							</NavLink>
 						</form>
 					)}
 					{isLoading && <LinearProgress color="secondary" />}
-					<p>------------------------------------------------</p>
-					<Button onClick={handleGoogleSignIN} variant="contained">
-						Google Sign In
-					</Button>
 				</Grid>
 
 				<Grid item xs={12} md={6}>
@@ -110,4 +123,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Register;
