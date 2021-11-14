@@ -28,7 +28,8 @@ const useFirebase = () => {
 				// name and email ke rakhar bangla system------
 				const newUser = { email, displayName: name };
 				setUser(newUser);
-
+				// save use to database ---step(11)--------------call function
+				saveUser(email, name, "POST");
 				// send name to firebase after creation
 				updateProfile(auth.currentUser, {
 					displayName: name,
@@ -96,6 +97,9 @@ const useFirebase = () => {
 		setIsLoading(true);
 		signInWithPopup(auth, googleProvider)
 			.then((result) => {
+				const user = result.user;
+				// saveUser(user.email, user.displayName, "PUT");
+				saveUser(user.email, user.displayName, "PUT");
 				const destination = location?.state?.from || "/"; //  privateRoute line number:2
 				history.replace(destination); //  privateRoute line number:3
 				setAuthError("");
@@ -105,7 +109,20 @@ const useFirebase = () => {
 			})
 			.finally(() => setIsLoading(false));
 	};
-	// jeigola diye amra return kore dibe and onno component use korbo------------ step(0++)--------------------------
+
+	// create user er jonno function--------------------step(9)------
+	const saveUser = (email, displayName, method) => {
+		const user = { email, displayName };
+		fetch("http://localhost:5000/users", {
+			method: method,
+			headers: {
+				"content-type": "application/json",
+			},
+			body: JSON.stringify(user),
+		}).then();
+	};
+
+	// jeigola diye amra return kore dibe and onno component use korbo------------ step(0++)--------
 	return {
 		user,
 		registerUser,
