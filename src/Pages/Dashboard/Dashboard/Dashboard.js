@@ -17,25 +17,23 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
+
 // nested Route import link---------------------------------------------------
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Link,
-	useParams,
-	useRouteMatch,
-} from "react-router-dom";
+import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 // Component import link--------------------------------------------------------
 import DashboardHome from "../DashboardHome/DashboardHome";
 import MakeAdmin from "../MakeAdmin/MakeAdmin";
 import AddDoctor from "../AddDoctor/AddDoctor";
+import useAuth from "../../../Hooks/useAuth";
+import AdminRoute from "../../Shared/Login/AdminRoute/AdminRoute";
+
 // dashboard drawer width-------------------------------------------------------
 const drawerWidth = 200;
 
 function Dashboard(props) {
 	// dashboard link and props  ------------------------------------------------
 	const { window } = props;
+	const { admin } = useAuth();
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 	//Nested route er 	useRouteMatch by doc-------------------------------------
 	let { path, url } = useRouteMatch();
@@ -58,19 +56,22 @@ function Dashboard(props) {
 			<Link to={`${url}`} style={{ textDecoration: "none", color: "green" }}>
 				<Button color="inherit">Dashboard</Button>
 			</Link>
-			<Link
-				to={`${url}/makeAdmin`}
-				style={{ textDecoration: "none", color: "green" }}
-			>
-				<Button color="inherit">Make Admin</Button>
-			</Link>
-			<Link
-				to={`${url}/addDoctor`}
-				style={{ textDecoration: "none", color: "green" }}
-			>
-				<Button color="inherit">Add Doctor</Button>
-			</Link>
-
+			{admin  && (
+				<Box>
+					<Link
+						to={`${url}/makeAdmin`}
+						style={{ textDecoration: "none", color: "green" }}
+					>
+						<Button color="inherit">Make Admin</Button>
+					</Link>
+					<Link
+						to={`${url}/addDoctor`}
+						style={{ textDecoration: "none", color: "green" }}
+					>
+						<Button color="inherit">Add Doctor</Button>
+					</Link>
+				</Box>
+			)}
 			<List>
 				{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
 					<ListItem button key={text}>
@@ -175,12 +176,12 @@ function Dashboard(props) {
 					<Route exact path={path}>
 						<DashboardHome></DashboardHome>
 					</Route>
-					<Route path={`${path}/makeAdmin`}>
+					<AdminRoute path={`${path}/makeAdmin`}>
 						<MakeAdmin></MakeAdmin>
-					</Route>
-					<Route path={`${path}/addDoctor`}>
+					</AdminRoute>
+					<AdminRoute path={`${path}/addDoctor`}>
 						<AddDoctor></AddDoctor>
-					</Route>
+					</AdminRoute>
 				</Switch>
 			</Box>
 		</Box>

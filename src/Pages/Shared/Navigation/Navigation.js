@@ -49,6 +49,19 @@ const Navigation = () => {
 							>
 								Logout
 							</Button>
+							<small
+								style={{
+									textDecoration: "none",
+									color: "rgb(155 255 135 / 95%)",
+									border: "1px solid #761a38ab",
+									padding: "6px",
+									backgroundColor: "#233e58ad",
+									borderRadius: "10px",
+								}}
+								color="inherit"
+							>
+								{user.displayName}
+							</small>
 						</Box>
 					) : (
 						<NavLink

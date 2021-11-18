@@ -8,6 +8,7 @@ import {
 	GoogleAuthProvider,
 	signInWithPopup,
 	updateProfile,
+	getIdToken,
 } from "firebase/auth";
 import initializeFirebase from "../Pages/Shared/Login/Login/Firebase/firebase.init";
 // initialize firebase app----------------------------- step(1)--------------------------------------
@@ -18,6 +19,8 @@ const useFirebase = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	//  UI te Login form er niche error dekhanor jonno-------step(7)------------------
 	const [authError, setAuthError] = useState("");
+	const [admin, setAdmin] = useState(false);
+	const [token, setToken] = useState("");
 	const auth = getAuth();
 
 	// when create user name and password user ------------------step(2)-----------------------------
@@ -83,6 +86,10 @@ const useFirebase = () => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
 				setUser(user);
+				getIdToken(user)
+				.then((idToken) => {
+					setToken(idToken);
+				})
 			} else {
 				setUser({});
 			}
@@ -122,6 +129,12 @@ const useFirebase = () => {
 		}).then();
 	};
 
+	//  admin set korar jonno---------step-9---------
+	useEffect(() => {
+		fetch(`http://localhost:5000/users/${user.email}`)
+			.then((res) => res.json())
+			.then((data) => setAdmin(data.admin));
+	}, [user.email]);
 	// jeigola diye amra return kore dibe and onno component use korbo------------ step(0++)--------
 	return {
 		user,
@@ -131,6 +144,8 @@ const useFirebase = () => {
 		isLoading,
 		authError,
 		signInWithGoogle,
+		admin,
+		token,
 	};
 };
 
